@@ -50,23 +50,23 @@ const SideBar = ({ open, handleOpen }) => {
                 <div className={`${open ? "hidden" : ""} w-full h-6 flex items-center justify-center mt-2  rounded-md bg-gray-700 text-center`}>
                     <h1 style={{ height: "70px", fontSize: "35px" }}>...</h1>
                 </div>
-                <h1 className={`${open ? "" : "hidden"} w-full mt-6 h-12 p-2 text-gray-900 text-center text-[18px] font-medium md:text-xl md:font-bold`}>الفلتره</h1>
+                <h1 className={`${open ? "" : "hidden"} w-full mt-6 h-12 p-2 text-gray-900 text-center text-xl font-bold`}>الفلتره</h1>
                 <div className={`${open ? "" : "hidden"} flex justify-center items-center rounded-md shadow-xs `} role="group">
-                    <button type="button" className="px-2 py-1 text-[12px] md:text-[16px] md:px-4 md:py-2 font-light text-white bg-gray-800 border border-gray-700 rounded-s-lg hover:bg-gray-700 cursor-pointer">
+                    <button type="button" className="px-[7px] py-2 text-[14px] md:text-[16px] md:px-5 lg:px-7 md:py-2 font-light text-white bg-gray-700 border border-gray-600 rounded-s-lg hover:bg-gray-800 cursor-pointer">
                         الكل
                     </button>
-                    <button type="button" className="px-2 py-1 text-[12px] md:text-[16px] md:px-4 md:py-2  font-light  text-white bg-gray-800 border-t border-b border-gray-700 hover:bg-gray-700 cursor-pointer">
+                    <button type="button" className="px-[7px] py-2 text-[14px] md:text-[16px] md:px-5 lg:px-7 md:py-2  font-light  text-white bg-gray-700 border-t border-b border-gray-600 hover:bg-gray-800 cursor-pointer">
                         مكتمله
                     </button>
-                    <button type="button" className="px-2 py-1 text-[12px] md:text-[16px] md:px-4 md:py-2 font-light text-white bg-gray-800 border border-gray-700 rounded-e-lg hover:bg-gray-700 cursor-pointer">
+                    <button type="button" className="px-[7px] py-2 text-[14px] md:text-[16px] md:px-5 lg:px-7 md:py-2 font-light text-white bg-gray-700 border border-gray-600 rounded-e-lg hover:bg-gray-800 cursor-pointer">
                         باقيه
                     </button>
                 </div>
                 {/* <button className={` ${open ? "" : "hidden"} duration-300 mb-1 w-full h-8 p-2 rounded-md bg-cyan-900 hover:bg-cyan-900 font-extrabold flex justify-center items-center text-center cursor-pointer`} >الكل</button>
                 <button className={` ${open ? "" : "hidden"} duration-300 mb-1 w-full h-8 p-2 rounded-md bg-emerald-900 hover:bg-emerald-900  font-extrabold flex justify-center items-center text-center cursor-pointer`} >مكتمله</button>
                 <button className={` ${open ? "" : "hidden"} duration-300 mb-0 w-full h-8 p-2 rounded-md bg-rose-900 hover:bg-rose-900 font-extrabold flex justify-center items-center text-center cursor-pointer`} > غير مكتمله </button> */}
-                <h1 className={`${open ? "" : "hidden"} w-full mt-6 h-12 p-2 text-gray-900 text-center text-[18px] font-medium md:text-xl md:font-bold`}>التصنيفات</h1>
-                <input className={` ${open ? "" : "hidden"} outline-0 border-b-2  border-gray-700 bg-blue-100  text-gray-700 p-2 text-[14px] md:text-[18px]`} type="text" placeholder="اسم التصنيف" />
+                <h1 className={`${open ? "" : "hidden"} w-full mt-6 h-12 p-2 text-gray-900 text-center text-xl font-bold `}>التصنيفات</h1>
+                <input className={` ${open ? "" : "hidden"} outline-0 border-b-2  border-gray-700 bg-blue-100  text-gray-700 p-2 text-[16px] md:text-[18px]`} type="text" placeholder="اسم التصنيف" />
                 <button className={` ${open ? "" : "hidden"} duration-300 mb-8 w-full p-1 md:p-2 rounded-md bg-gray-700 hover:bg-gray-900 font-extrabold flex justify-center items-center text-center cursor-pointer`} ><AddCircleOutline /></button>
                 {categoriesList}
             </div>
