@@ -1,31 +1,51 @@
-import { MenuOpen } from "@mui/icons-material";
+import { MenuOpen, Delete } from "@mui/icons-material";
 import { Cancel } from "@mui/icons-material";
 import { AddCircleOutline } from "@mui/icons-material";
-const categories = [
-    {
-        id: 1,
-        title: "الحياه",
-        color: "bg-yellow-400"
-    },
-    {
-        id: 2,
-        title: "العمل",
-        color: "bg-blue-400"
-    },
-    {
-        id: 3,
-        title: "العائله",
-        color: "bg-green-400"
-    },
-
+import { useContext, useState } from "react";
+import { CategoryContext } from "../context/categoryContext";
+import { v4 as uuidv4 } from "uuid";
+const colors = [
+    "bg-green-200",
+    "bg-rose-200",
+    "bg-yellow-200",
+    "bg-fuchsia-200",
+    "bg-indigo-200",
 ]
 const SideBar = ({ open, handleOpen }) => {
+    const [categoryName, setCategoryName] = useState("")
+    const [number, setNumber] = useState(colors.length - 1)
+    const { categoryes, setCategoryes } = useContext(CategoryContext)
     const t = open ? <Cancel /> : <MenuOpen />;
-    let categoriesList = categories.map((c) => {
+    const handleNewCtegory = () => {
+        if (categoryName != "") {
+            const randomColor = colors[number]
+            if (number == 0) {
+                setNumber(colors.length - 1)
+            }
+            else {
+                setNumber(number - 1)
+            }
+            const newCtegory = {
+                id: uuidv4(),
+                name: categoryName,
+                color: randomColor
+            }
+            setCategoryes([...categoryes, newCtegory])
+            setCategoryName("")
+        }
+    }
+    const handleDeleteCategory = (id) => {
+        const filterdCategoryes = categoryes.filter((c) => {
+            return c.id != id
+        })
+        setCategoryes(filterdCategoryes)
+    }
+    let categoryesJSX = categoryes.map((c) => {
         return (
-            <div key={c.id} className={`${open ? "" : "hidden"} flex justify-between items-center mt-4`}>
-                <h1 className={` text-gray-900 text-[16px] md:text-xl text-center font-light`}>{c.title}</h1>
+            <div key={c.id} className={`${open ? "" : "hidden"} flex justify-between bg-[#f0f8ffb5] rounded-md p-1 items-center mt-4`}>
+                <h1 className={` text-gray-900 text-[16px] md:text-xl text-center font-light`}>{c.name}</h1>
                 <div className={` flex-1 mr-4 h-1 ${c.color}`}></div>
+                <span onClick={() => handleDeleteCategory(c.id)} className="w-[12px] mr-2 hover:bg-red-200 duration-150 cursor-pointer h-[12px] border border-red-400 text-red-400 rounded-full p-3 flex justify-center items-center"><Delete className=" text-[16px]! " /></span>
             </div>
         )
     })
@@ -52,23 +72,24 @@ const SideBar = ({ open, handleOpen }) => {
                 </div>
                 <h1 className={`${open ? "" : "hidden"} w-full mt-6 h-12 p-2 text-gray-900 text-center text-xl font-bold`}>الفلتره</h1>
                 <div className={`${open ? "" : "hidden"} flex justify-center items-center rounded-md shadow-xs `} role="group">
-                    <button type="button" className="px-[7px] py-2 text-[14px] md:text-[16px] md:px-5 lg:px-7 md:py-2 font-light text-white bg-gray-700 border border-gray-600 rounded-s-lg hover:bg-gray-800 cursor-pointer">
+                    <button type="button" className="px-[7px] py-2 text-[14px] lg:text-[16px] md:px-5 lg:px-7 md:py-2 font-light text-white bg-gray-700 border border-gray-600 rounded-s-lg hover:bg-gray-800 cursor-pointer">
                         الكل
                     </button>
-                    <button type="button" className="px-[7px] py-2 text-[14px] md:text-[16px] md:px-5 lg:px-7 md:py-2  font-light  text-white bg-gray-700 border-t border-b border-gray-600 hover:bg-gray-800 cursor-pointer">
+                    <button type="button" className="px-[7px] py-2 text-[14px] lg:text-[16px] md:px-5 lg:px-7 md:py-2  font-light  text-white bg-gray-700 border-t border-b border-gray-600 hover:bg-gray-800 cursor-pointer">
                         مكتمله
                     </button>
-                    <button type="button" className="px-[7px] py-2 text-[14px] md:text-[16px] md:px-5 lg:px-7 md:py-2 font-light text-white bg-gray-700 border border-gray-600 rounded-e-lg hover:bg-gray-800 cursor-pointer">
+                    <button type="button" className="px-[7px] py-2 text-[14px] lg:text-[16px] md:px-5 lg:px-7 md:py-2 font-light text-white bg-gray-700 border border-gray-600 rounded-e-lg hover:bg-gray-800 cursor-pointer">
                         باقيه
                     </button>
                 </div>
-                {/* <button className={` ${open ? "" : "hidden"} duration-300 mb-1 w-full h-8 p-2 rounded-md bg-cyan-900 hover:bg-cyan-900 font-extrabold flex justify-center items-center text-center cursor-pointer`} >الكل</button>
-                <button className={` ${open ? "" : "hidden"} duration-300 mb-1 w-full h-8 p-2 rounded-md bg-emerald-900 hover:bg-emerald-900  font-extrabold flex justify-center items-center text-center cursor-pointer`} >مكتمله</button>
-                <button className={` ${open ? "" : "hidden"} duration-300 mb-0 w-full h-8 p-2 rounded-md bg-rose-900 hover:bg-rose-900 font-extrabold flex justify-center items-center text-center cursor-pointer`} > غير مكتمله </button> */}
                 <h1 className={`${open ? "" : "hidden"} w-full mt-6 h-12 p-2 text-gray-900 text-center text-xl font-bold `}>التصنيفات</h1>
-                <input className={` ${open ? "" : "hidden"} outline-0 border-b-2  border-gray-700 bg-blue-100  text-gray-700 p-2 text-[16px] md:text-[18px]`} type="text" placeholder="اسم التصنيف" />
-                <button className={` ${open ? "" : "hidden"} duration-300 mb-8 w-full p-1 md:p-2 rounded-md bg-gray-700 hover:bg-gray-900 font-extrabold flex justify-center items-center text-center cursor-pointer`} ><AddCircleOutline /></button>
-                {categoriesList}
+                <input value={categoryName} onChange={e => setCategoryName(e.target.value)} className={` ${open ? "" : "hidden"} outline-0 border-b-2  border-gray-700 bg-blue-100  text-gray-700 p-2 text-[16px] md:text-[18px]`} type="text" placeholder="اسم التصنيف" />
+                <button onClick={handleNewCtegory} className={` ${open ? "" : "hidden"} duration-300 mb-8 w-full p-1 md:p-2 rounded-md bg-gray-700 hover:bg-gray-900 font-extrabold flex justify-center items-center text-center cursor-pointer`} ><AddCircleOutline /></button>
+                <div className={`${open ? "" : "hidden"} flex justify-between bg-[#f0f8ffb5] rounded-md p-1 items-center mt-4`}>
+                    <h1 className={` text-gray-900 text-[16px] md:text-xl text-center font-light`}>عشوائي</h1>
+                    <div className={` flex-1 mr-4 h-1 bg-blue-200`}></div>
+                </div>
+                {categoryesJSX}
             </div>
         </>
     )

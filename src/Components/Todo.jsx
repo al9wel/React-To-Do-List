@@ -2,9 +2,32 @@ import { Delete } from "@mui/icons-material"
 import { Edit } from "@mui/icons-material"
 import { Check } from "@mui/icons-material"
 import { useState } from "react"
-const Todo = ({ todo, handleCompletedTodo, handleUpdateTodo, handleDeleteTodo }) => {
+import { useContext } from "react"
+import { TodosContext } from "../context/todosContext"
+const Todo = ({ todo }) => {
+    const { todos, setTodos } = useContext(TodosContext)
     const [open, setOpen] = useState(true)
     const [title, setTitle] = useState(todo.title)
+    const handleCompletedTodo = (id) => {
+        const filterdTodos = todos.map((t) => {
+            t.id == id ? t.isCompleted = !t.isCompleted : ""
+            return t
+        })
+        setTodos(filterdTodos)
+    }
+    const handleUpdateTodo = (id, title) => {
+        const filterdTodos = todos.map((t) => {
+            t.id == id && title != "" ? t.title = title : ""
+            return t
+        })
+        setTodos(filterdTodos)
+    }
+    const handleDeleteTodo = (id) => {
+        const filterdTodos = todos.filter((t) => {
+            return t.id != id
+        })
+        setTodos(filterdTodos)
+    }
     return (
         <>
             <div onMouseLeave={() => setOpen(!false)} className="bg-white shadow-2xl shadow-gray-300 m-2 rounded-md pb-1 duration-300">
