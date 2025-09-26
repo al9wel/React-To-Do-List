@@ -4,6 +4,7 @@ import { AddCircleOutline } from "@mui/icons-material";
 import { useContext, useState } from "react";
 import { CategoryContext } from "../context/categoryContext";
 import { v4 as uuidv4 } from "uuid";
+import { FilterContext } from "../context/filterContext";
 const colors = [
     "bg-green-200",
     "bg-rose-200",
@@ -14,6 +15,7 @@ const colors = [
 const SideBar = ({ open, handleOpen }) => {
     const [categoryName, setCategoryName] = useState("")
     const [number, setNumber] = useState(colors.length - 1)
+    const { filter, setFilter } = useContext(FilterContext)
     const { categoryes, setCategoryes } = useContext(CategoryContext)
     const t = open ? <Cancel /> : <MenuOpen />;
     const handleNewCtegory = () => {
@@ -31,6 +33,7 @@ const SideBar = ({ open, handleOpen }) => {
                 color: randomColor
             }
             setCategoryes([...categoryes, newCtegory])
+            localStorage.setItem("categoryes", JSON.stringify([...categoryes, newCtegory]))
             setCategoryName("")
         }
     }
@@ -39,6 +42,7 @@ const SideBar = ({ open, handleOpen }) => {
             return c.id != id
         })
         setCategoryes(filterdCategoryes)
+        localStorage.setItem("categoryes", JSON.stringify(filterdCategoryes))
     }
     let categoryesJSX = categoryes.map((c) => {
         return (
@@ -72,13 +76,13 @@ const SideBar = ({ open, handleOpen }) => {
                 </div>
                 <h1 className={`${open ? "" : "hidden"} w-full mt-6 h-12 p-2 text-gray-900 text-center text-xl font-bold`}>الفلتره</h1>
                 <div className={`${open ? "" : "hidden"} flex justify-center items-center rounded-md shadow-xs `} role="group">
-                    <button type="button" className="px-[7px] py-2 text-[14px] lg:text-[16px] md:px-5 lg:px-7 md:py-2 font-light text-white bg-gray-700 border border-gray-600 rounded-s-lg hover:bg-gray-800 cursor-pointer">
+                    <button onClick={() => setFilter("all")} type="button" className={`${filter === "all" ? "bg-gray-800" : "bg-gray-700"} px-[7px] py-2 text-[14px] lg:text-[16px] md:px-5 lg:px-7 md:py-2 font-light text-white border border-gray-600 rounded-s-lg hover:bg-gray-800 cursor-pointer`}>
                         الكل
                     </button>
-                    <button type="button" className="px-[7px] py-2 text-[14px] lg:text-[16px] md:px-5 lg:px-7 md:py-2  font-light  text-white bg-gray-700 border-t border-b border-gray-600 hover:bg-gray-800 cursor-pointer">
+                    <button onClick={() => setFilter("completed")} type="button" className={`${filter === "completed" ? "bg-gray-800" : "bg-gray-700"} px-[7px] py-2 text-[14px] lg:text-[16px] md:px-5 lg:px-7 md:py-2  font-light  text-white border-t border-b border-gray-600 hover:bg-gray-800 cursor-pointer`}>
                         مكتمله
                     </button>
-                    <button type="button" className="px-[7px] py-2 text-[14px] lg:text-[16px] md:px-5 lg:px-7 md:py-2 font-light text-white bg-gray-700 border border-gray-600 rounded-e-lg hover:bg-gray-800 cursor-pointer">
+                    <button onClick={() => setFilter("notCompleted")} type="button" className={`${filter === "notCompleted" ? "bg-gray-800" : "bg-gray-700"} px-[7px] py-2 text-[14px] lg:text-[16px] md:px-5 lg:px-7 md:py-2 font-light text-white border border-gray-600 rounded-e-lg hover:bg-gray-800 cursor-pointer`}>
                         باقيه
                     </button>
                 </div>

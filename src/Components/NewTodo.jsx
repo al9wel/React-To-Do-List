@@ -10,6 +10,7 @@ const NewTodo = () => {
     const { todos, setTodos } = useContext(TodosContext)
     const { categoryes } = useContext(CategoryContext)
     const handleNewTodo = () => {
+        console.log("ss")
         if (selectedId === "") {
             const newTodo = {
                 id: uuidv4(),
@@ -21,8 +22,11 @@ const NewTodo = () => {
                     color: "bg-blue-200"
                 }
             }
-            newTodo.title != "" ? setTodos([...todos, newTodo]) : ""
-            setTitle("")
+            if (newTodo.title != "") {
+                setTodos([...todos, newTodo])
+                setTitle("")
+                localStorage.setItem("todos", JSON.stringify([...todos, newTodo]))
+            }
             return
         }
         const category = categoryes.find(option => option.id === selectedId);
@@ -32,8 +36,11 @@ const NewTodo = () => {
             isCompleted: false,
             category: category
         }
-        newTodo.title != "" ? setTodos([...todos, newTodo]) : ""
-        setTitle("")
+        if (newTodo.title != "") {
+            setTodos([...todos, newTodo])
+            setTitle("")
+            localStorage.setItem("todos", JSON.stringify([...todos, newTodo]))
+        }
     }
     const categoryJSX = categoryes.map((c) => {
         return <option key={c.id} value={c.id} className="bg-gray-700  text-gray-300 hover:bg-gray-800!"> {c.name}</option>

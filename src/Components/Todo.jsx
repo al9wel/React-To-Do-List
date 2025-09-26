@@ -14,6 +14,7 @@ const Todo = ({ todo }) => {
             return t
         })
         setTodos(filterdTodos)
+        localStorage.setItem("todos", JSON.stringify(filterdTodos))
     }
     const handleUpdateTodo = (id, title) => {
         const filterdTodos = todos.map((t) => {
@@ -21,12 +22,14 @@ const Todo = ({ todo }) => {
             return t
         })
         setTodos(filterdTodos)
+        localStorage.setItem("todos", JSON.stringify(filterdTodos))
     }
     const handleDeleteTodo = (id) => {
         const filterdTodos = todos.filter((t) => {
             return t.id != id
         })
         setTodos(filterdTodos)
+        localStorage.setItem("todos", JSON.stringify(filterdTodos))
     }
     return (
         <>
