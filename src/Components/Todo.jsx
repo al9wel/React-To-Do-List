@@ -2,34 +2,28 @@ import { Delete } from "@mui/icons-material"
 import { Edit } from "@mui/icons-material"
 import { Check } from "@mui/icons-material"
 import { useState } from "react"
-import { useContext } from "react"
-import { TodosContext } from "../context/todosContext"
+// import { TodosContext } from "../context/todosContext"
+// import { useTodos } from "../context/todosContext"
+import { useTodos } from "../context/todosContext"
+import { useToast } from "../context/toastContext"
 const Todo = ({ todo }) => {
-    const { todos, setTodos } = useContext(TodosContext)
+    const { dispatch } = useTodos()
+    // console.log(todos)
+    // const { todos, dispatch } = useTodos()
     const [open, setOpen] = useState(true)
     const [title, setTitle] = useState(todo.title)
+    const { handleOpenToast } = useToast()
     const handleCompletedTodo = (id) => {
-        const filterdTodos = todos.map((t) => {
-            t.id == id ? t.isCompleted = !t.isCompleted : ""
-            return t
-        })
-        setTodos(filterdTodos)
-        localStorage.setItem("todos", JSON.stringify(filterdTodos))
+        dispatch({ type: "completed", payload: { id: id } })
+        handleOpenToast("تم تعديل مهمه ")
     }
     const handleUpdateTodo = (id, title) => {
-        const filterdTodos = todos.map((t) => {
-            t.id == id && title != "" ? t.title = title : ""
-            return t
-        })
-        setTodos(filterdTodos)
-        localStorage.setItem("todos", JSON.stringify(filterdTodos))
+        dispatch({ type: "updated", payload: { id: id, title: title } })
+        handleOpenToast("تم تحديث مهمه")
     }
     const handleDeleteTodo = (id) => {
-        const filterdTodos = todos.filter((t) => {
-            return t.id != id
-        })
-        setTodos(filterdTodos)
-        localStorage.setItem("todos", JSON.stringify(filterdTodos))
+        dispatch({ type: "deleted", payload: { id: id } })
+        handleOpenToast("تم حذف مهمه")
     }
     return (
         <>

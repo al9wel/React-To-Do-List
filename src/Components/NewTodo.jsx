@@ -1,45 +1,27 @@
 import { useState } from "react"
-import { v4 as uuidv4 } from 'uuid';
 import { useContext } from "react";
-import { TodosContext } from "../context/todosContext";
+// import { TodosContext } from "../context/todosContext";
 import { CategoryContext } from "../context/categoryContext";
-
+import { useToast } from "../context/toastContext";
+import { useTodos } from "../context/todosContext";
 const NewTodo = () => {
     const [title, setTitle] = useState("")
     const [selectedId, setSelectedId] = useState("")
-    const { todos, setTodos } = useContext(TodosContext)
     const { categoryes } = useContext(CategoryContext)
+    const { dispatch } = useTodos()
+    const { handleOpenToast } = useToast()
     const handleNewTodo = () => {
-        console.log("ss")
-        if (selectedId === "") {
-            const newTodo = {
-                id: uuidv4(),
-                title: title,
-                isCompleted: false,
-                category: {
-                    id: uuidv4(),
-                    name: "عشوائي",
-                    color: "bg-blue-200"
+        if (title != "") {
+            dispatch({
+                type: "added",
+                payload: {
+                    title: title,
+                    selectedId: selectedId,
+                    categoryes: categoryes
                 }
-            }
-            if (newTodo.title != "") {
-                setTodos([...todos, newTodo])
-                setTitle("")
-                localStorage.setItem("todos", JSON.stringify([...todos, newTodo]))
-            }
-            return
-        }
-        const category = categoryes.find(option => option.id === selectedId);
-        const newTodo = {
-            id: uuidv4(),
-            title: title,
-            isCompleted: false,
-            category: category
-        }
-        if (newTodo.title != "") {
-            setTodos([...todos, newTodo])
+            })
             setTitle("")
-            localStorage.setItem("todos", JSON.stringify([...todos, newTodo]))
+            handleOpenToast("تم اضافه مهمه جديده")
         }
     }
     const categoryJSX = categoryes.map((c) => {

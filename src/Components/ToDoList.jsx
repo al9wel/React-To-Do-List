@@ -2,9 +2,12 @@ import { useEffect, useState } from "react"
 import SideBar from "./SideBar"
 import Todos from "./Todos"
 import { v4 as uuidv4 } from "uuid"
-import { TodosContext } from "../context/todosContext"
+// import { TodosContext } from "../context/todosContext"
 import { CategoryContext } from "../context/categoryContext"
 import { FilterContext } from "../context/filterContext"
+import Toast from "./Toast"
+import ToastProvider from "../context/toastContext"
+import TodosProvider from "../context/todosContext"
 const demo = [
     {
         id: uuidv4(),
@@ -23,19 +26,11 @@ const demo = [
     },
 
 ]
+// import { TodosContext } from "../context/todosContext"
 const ToDoList = () => {
-    const [open, setOpen] = useState(false)
-    const [todos, setTodos] = useState([])
     const [categoryes, setCategoryes] = useState(demo)
     const [filter, setFilter] = useState("all")
-    const handleOpen = () => {
-        setOpen((o) => !o)
-    }
     useEffect(() => {
-        const t = JSON.parse(localStorage.getItem("todos"))
-        if (t) {
-            setTodos(t)
-        }
         const c = JSON.parse(localStorage.getItem("categoryes"))
         if (c) {
             setCategoryes(c)
@@ -44,14 +39,16 @@ const ToDoList = () => {
     return (
         <>
             <div style={{ direction: "rtl" }} className="min-h-screen bg-gray-900 flex">
-                <TodosContext.Provider value={{ todos, setTodos }}>
+                <TodosProvider>
                     <CategoryContext.Provider value={{ categoryes, setCategoryes }}>
                         <FilterContext.Provider value={{ filter, setFilter }}>
-                            <SideBar open={open} handleOpen={handleOpen} />
-                            <Todos />
+                            <ToastProvider>
+                                <SideBar />
+                                <Todos />
+                            </ToastProvider>
                         </FilterContext.Provider>
                     </CategoryContext.Provider>
-                </TodosContext.Provider>
+                </TodosProvider>
             </div>
         </>
     )

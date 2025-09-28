@@ -1,24 +1,31 @@
 
 import NewTodo from "./NewTodo"
 import Todo from "./Todo"
-import { TodosContext } from "../context/todosContext";
+// import { TodosContext } from "../context/todosContext";
 import { FilterContext } from "../context/filterContext";
-import { useContext, useMemo } from "react";
+import { useContext, useMemo, useEffect } from "react";
+import { useTodos } from "../context/todosContext"
+
 
 const Todos = () => {
-    const { todos } = useContext(TodosContext)
+    const { todos, dispatch } = useTodos()
     const { filter } = useContext(FilterContext)
+    useEffect(() => {
+        const t = JSON.parse(localStorage.getItem("todos"))
+        if (t) {
+            dispatch({ type: "get", payload: { todos: t } })
+        }
+        console.log(t)
+    }, [])
     // caching the data
     // only filterd the data when todos states triggers
     const completed = useMemo(() => {
         return todos.filter((t) => {
-            console.log("completed")
             return t.isCompleted
         })
     }, [todos])
     const notCompleted = useMemo(() => {
         return todos.filter((t) => {
-            console.log("notCompleted")
             return !t.isCompleted
         })
     }, [todos])
