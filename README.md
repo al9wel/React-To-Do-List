@@ -9,6 +9,12 @@ This project helps users organize their daily tasks efficiently and sort the tas
 
 ---
 
+## 📍Live Demo
+
+- https://al9wel-7.netlify.app/
+
+---
+
 ## 🚀 Features
 
 - 📝 **Add, Edit, and Delete Tasks** – Manage your daily tasks easily.
